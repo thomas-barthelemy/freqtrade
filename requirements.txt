@@ -58,6 +58,7 @@ schedule==1.2.2
 #WS Messages
 websockets==14.2
 janus==2.0.0
+wsproto==1.2.0
 
 ast-comments==1.2.2
 packaging==24.2
