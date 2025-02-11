@@ -236,5 +236,6 @@ async def create_channel(websocket: WebSocketType, **kwargs) -> AsyncIterator[We
 
         yield channel
     finally:
-        await channel.close()
+        if(not channel.is_closed):
+            await channel.close()
         logger.info(f"Disconnected from channel - {channel}")
