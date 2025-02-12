@@ -1865,6 +1865,9 @@ class FreqtradeBot(LoggingMixin):
             else:
                 self.update_trade_state(trade, order_id, corder)
                 logger.info(f"{side} Order timeout for {trade}.")
+                if order_obj.ft_cancel_reason == constants.CANCEL_REASON["REPLACE"]:
+                    logger.info(f"Removing canceled order {order_id} from {trade}.")
+                    trade.orders.remove(order_obj)
         else:
             # update_trade_state (and subsequently recalc_trade_from_orders) will handle updates
             # to the trade object
@@ -1936,7 +1939,6 @@ class FreqtradeBot(LoggingMixin):
             if order_obj.ft_cancel_reason is None:
                 order_obj.ft_cancel_reason = constants.CANCEL_REASON["CANCELLED_ON_EXCHANGE"]
             trade.exit_reason = None
-
         self.update_trade_state(trade, order["id"], order)
 
         logger.info(
